@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地元の観光名所</title>
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAKLjisxFelKwIl1_G6MiEO9-ya7Twr5s&callback=console.debug&libraries=maps,marker&v=beta">
+    </script>
+    <style>
+        #map {
+            height: 100%;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+    </style>
+
+</head>
+
+    <body>
+
+    <div id="map"></div>
+
+    <script>
+
+        function initMap() {
+
+        // マップ表示
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 9,
+                center: {
+                lat: 35.8000,
+                lng: 136.8223
+                },
+                zoomControl: true,
+                mapTypeControl: true,
+                streetViewControl: false
+            });
+
+            const spots = [
+                {
+                    name:"岐阜城",
+                    lat: 35.4340,
+                    lng: 136.7820,
+                    exp: "金華山山頂に位置し、ロープウェイでアクセスする岐阜のシンボル。戦国時代には斎藤道三の居城であり、その後、織田信長が城主となって天下統一の本拠地としました。",
+                    photo: "images/gihujyou.jpg",
+                    url: "https://www.city.gifu.lg.jp/kankoubunka/kankou/1013051/1005097/index.html"
+                },
+
+                {
+                    name:"モネの池",
+                    lat: 35.651788,
+                    lng: 136.82133,
+                    exp: "透明度の高い湧水に咲く睡蓮と、色とりどりの錦鯉が泳ぐ姿がとても美しく、フランスの画家クロード・モネが描いた『睡蓮』に似ていることから、通称「モネの池」と呼ばれています。",
+                    photo: "images/mone.jpg",
+                    url: "https://sekikanko.jp/feature/monet"
+                },
+
+                {
+                    name:"白川郷",
+                    lat: 36.256545,
+                    lng: 136.902666,
+                    exp: "大自然に囲まれた日本有数の豪雪地帯に、数百年の時を刻む合掌造りの建物が100棟余り現存。1995年に世界文化遺産にも登録された全国最大規模の合掌集落です。",
+                    photo: "images/sirakawa.jpg",
+                    url: "https://www.vill.shirakawa.lg.jp/1346.htm"
+                },
+
+                {
+                    name:"養老の滝",
+                    lat: 35.280294,
+                    lng: 136.53423,
+                    exp: "滝の水が酒に変わったという孝行息子の伝説「養老孝子物語」で知られる名瀑。養老山地の巨岩老樹の中を流れ落ちる、高さ約30メートル、幅約4メートルの雄麗な姿は必見です。",
+                    photo: "images/taki.jpg",
+                    url: "https://www.yoro-park.com/facility-map/yoro-falls/"
+                },
+                {
+                    name:"馬籠宿",
+                    lat: 35.526515,
+                    lng: 137.567691,
+                    exp: "江戸時代に中山道43番目の宿場町として栄えた坂の町。石畳の両脇には昔ながらの茶屋や土産物屋が並び、タイムスリップしたような風情が楽しめる。文豪・島崎藤村の出生地としても知られる。",
+                    photo: "images/magome.jpg" ,
+                    url: "https://www.city.nakatsugawa.lg.jp/soshikikarasagasu/kankoka/5/2/756.html"
+                }
+            ]
+
+            const infoWindow = new google.maps.InfoWindow({
+                maxWidth:400,
+            });
+
+            spots.forEach(spot => {
+                const marker = new google.maps.Marker({
+                    position: {lat:spot.lat, lng:spot.lng},
+                    map: map,
+                    title: spot.name
+                });
+
+                marker.addListener("click", () => {
+                    const title = `<h2>${spot.name}</h2>`;
+                    const image = `<img src="${spot.photo}" class="spot-photo">`;
+                    const desc = `<p>${spot.exp}</p>`;
+                    const link = `<p><a href="${spot.url}" target="_blank">詳しくはこちら</a></p>`;
+                    infoWindow.setContent(title + image + desc + link);
+                    infoWindow.open(map, marker);
+                });
+                
+                map.addListener("click", () => {
+                infoWindow.close();
+                });
+            });
+
+            
+
+        }
+
+
+    // マップ初期化
+    window.initMap = initMap;
+
+    window.addEventListener("load", () => {
+        initMap();
+    });
+
+    </script>
+
+    </body>
+</html>
